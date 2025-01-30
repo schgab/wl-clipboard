@@ -81,3 +81,34 @@ const char *get_file_extension(const char *file_path) {
     }
     return ext + 1;
 }
+
+char **split_strm(char *str, const char delim) {
+
+    char **result = 0;
+    size_t count = 2; // init to 2, account for last token plus NULL
+    char *tmp = str;
+    while (*tmp)
+    {
+        if (*tmp == delim) {
+            count++;
+        }
+        tmp++;
+    }
+    char del[2];
+    del[0] = delim;
+    del[1] = 0;
+    result = malloc(sizeof(char*) * count);
+    if (result)
+    {
+        char *token = strtok(str, del);
+        size_t idx = 0;
+        while (token != NULL)
+        {
+            *(result+idx) = strdup(token);
+            idx++;
+            token = strtok(NULL, del);
+        }
+        *(result+idx) = 0;
+    }
+    return result;
+}

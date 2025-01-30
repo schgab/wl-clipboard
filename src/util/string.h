@@ -31,4 +31,6 @@ int str_has_suffix(const char *string, const char *suffix);
 
 const char *get_file_extension(const char *file_path);
 
+char **split_strm(char *str, const char delim);
+
 #endif /* UTIL_STRING_H */

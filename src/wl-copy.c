@@ -293,7 +293,16 @@ int main(int argc, argv_t argv) {
         /* Create the source */
         copy_action->source = device_manager_create_source(device_manager);
         if (options.mime_type != NULL) {
-            source_offer(copy_action->source, options.mime_type);
+            if (strchr(options.mime_type, ',') != NULL) {
+                char **multi_mime_types = split_strm(options.mime_type, ',');
+                for (size_t i = 0; *(multi_mime_types+i); i++) {
+                    source_offer(copy_action->source, *(multi_mime_types+i));
+                }
+                free(multi_mime_types);
+            }
+            else {
+                source_offer(copy_action->source, options.mime_type);
+            }
         }
         if (options.mime_type == NULL || mime_type_is_text(options.mime_type)) {
             /* Offer a few generic plain text formats */
